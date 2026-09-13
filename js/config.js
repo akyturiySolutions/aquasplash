@@ -65,7 +65,7 @@ export const CONFIG = {
   contact: {
     intro: "We're happy to help with orders, delivery questions, or anything else. Call us on +254 726 557 840 or +254 101 141 268.",
     locationText: "Nyali, Mombasa, Kenya.",
-    businessHours: "Contact us for current opening hours.", // TODO: confirm exact hours with client
+    businessHours: "Monday – Sunday: 8:00 AM – 5:00 PM",
   },
 
   // -----------------------------------------------------------
@@ -124,18 +124,18 @@ export const CONFIG = {
     {
       id: 4,
       size:        "5 Litres",
-      pack:        "Handle Bottle",
+      pack:        "1×4 Carton",
       price:       330,
       image:       "images/5L.png",
-      description: "5-litre bottle with carry handle",
+      description: "Carton of 4 five-litre bottles with carry handle",
     },
     {
       id: 5,
       size:        "10 Litres",
-      pack:        "Bottle",
+      pack:        "Single Bottle",
       price:       110,
       image:       "images/10L.jpg",
-      description: "10-litre bottle", // NOTE: confirm this price with client — it's lower than the 5L price, may be a refill/exchange rate
+      description: "Single 10-litre bottle",
     },
     {
       id: 6,
