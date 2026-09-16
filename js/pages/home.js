@@ -39,7 +39,10 @@ export function initHome() {
       <div class="coast-promo-card">
         <h3>The Coastal Collection</h3>
         <p>See every AquaSplash size in one place, styled around the Mombasa coast we're proud to call home.</p>
-        <button class="coast-promo-btn" onclick="window._nav('landing')">🌊 View the Collection</button>
+        <button class="coast-promo-btn" onclick="window._nav('landing')">
+          <span class="coast-promo-btn-title">🌊 Pwani Yetu</span>
+          <span class="coast-promo-btn-sub">View the Collection</span>
+        </button>
       </div>
 
       <div class="quick-actions">

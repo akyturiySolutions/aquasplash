@@ -5,7 +5,7 @@
 //  so this file never needs per-tenant edits.
 // ============================================================
 
-const CACHE_NAME = 'pwa-shell-v6';
+const CACHE_NAME = 'pwa-shell-v7';
 
 // App shell only — no product images listed here on purpose.
 const PRECACHE_URLS = [
