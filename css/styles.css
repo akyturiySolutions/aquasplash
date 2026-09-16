@@ -51,7 +51,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
   padding: 24px 20px 0;
   text-align: center;
 }
-.hero-logo { width: 110px; height: 110px; object-fit: contain; margin-bottom: 12px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
+.hero-logo { width: 96px; height: 96px; object-fit: contain; margin-bottom: 12px; padding: 14px; background: white; border-radius: 50%; box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
 .hero-logo-placeholder { width: 110px; height: 80px; background: white; border-radius: 12px; margin: 0 auto 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; color: var(--navy); font-size: 0.8rem; box-shadow: 0 4px 12px rgba(0,0,0,0.3); }
 .hero-title { font-size: 2rem; font-weight: 900; color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.2); line-height: 1.1; margin-bottom: 8px; }
 .hero-tagline { font-size: 0.72rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.85); margin-bottom: 4px; }
