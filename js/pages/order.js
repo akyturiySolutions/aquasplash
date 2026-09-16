@@ -7,6 +7,87 @@
 import { CONFIG }          from '../config.js';
 import { updateActiveNav } from '../components/nav.js';
 
+// ── Payment methods block: tap-to-copy Till/Paybill lines,
+//    plain cash line, and an M-Pesa STK prompt (live button if
+//    enabled, disabled preview + "Coming Soon" badge if not) ──
+function buildPaymentMethodsHTML() {
+  const pay = CONFIG.payments || {};
+  const lines = [];
+
+  if (pay.mpesaTill) {
+    lines.push(`
+      <div class="payment-line" onclick="window._copyPayment('${pay.mpesaTill}', this)">
+        <div>
+          <span class="payment-label">M-Pesa Till</span>
+          <span class="payment-value">${pay.mpesaTill}</span>
+        </div>
+        <span class="copy-icon">📋</span>
+      </div>
+    `);
+  }
+
+  if (pay.paybillNumber) {
+    const acctSuffix = pay.paybillAccount ? ` (A/C ${pay.paybillAccount})` : '';
+    const copyText = pay.paybillAccount ? `${pay.paybillNumber} ${pay.paybillAccount}` : pay.paybillNumber;
+    lines.push(`
+      <div class="payment-line" onclick="window._copyPayment('${copyText}', this)">
+        <div>
+          <span class="payment-label">Equity Paybill</span>
+          <span class="payment-value">${pay.paybillNumber}<small>${acctSuffix}</small></span>
+        </div>
+        <span class="copy-icon">📋</span>
+      </div>
+    `);
+  }
+
+  if (pay.cashOnDelivery) {
+    lines.push(`
+      <div class="payment-line-simple">
+        <span class="payment-label">Cash</span>
+        <span class="payment-value">Pay on Delivery</span>
+      </div>
+    `);
+  }
+
+  const mpesaSection = pay.mpesaEnabled ? '' : `
+    <div class="mpesa-coming-soon-block">
+      <div class="mpesa-coming-soon-header">
+        <span>📲 Instant M-Pesa Payment Prompt</span>
+        <span class="badge-soon">Coming Soon</span>
+      </div>
+      <input class="form-input" type="tel" placeholder="Phone number (feature launching soon)" disabled>
+    </div>
+  `;
+
+  return `
+    <div class="payment-methods-card">
+      <h3>💳 Payment Methods</h3>
+      ${lines.join('')}
+      ${mpesaSection}
+    </div>
+  `;
+}
+
+window._copyPayment = async (text, el) => {
+  try {
+    await navigator.clipboard.writeText(text);
+  } catch {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+  }
+  const icon = el.querySelector('.copy-icon');
+  if (!icon) return;
+  const original = icon.textContent;
+  icon.textContent = '✅';
+  setTimeout(() => { icon.textContent = original; }, 1500);
+};
+
 export function initOrder() {
   updateActiveNav('order');
 
@@ -41,16 +122,7 @@ export function initOrder() {
         ${productsHTML}
       </div>
 
-      <div class="payment-methods-card">
-        <h3>💳 Payment Methods</h3>
-        <p>${CONFIG.delivery.paymentText}</p>
-        ${mpesaOn ? '' : `
-        <div class="mpesa-coming-soon">
-          <span>📲 Instant M-Pesa Payment Prompt</span>
-          <span class="badge-soon">Coming Soon</span>
-        </div>
-        `}
-      </div>
+      ${buildPaymentMethodsHTML()}
 
       <div class="order-summary" id="orderSummary" style="display:none">
         <h3>Order Summary</h3>

@@ -154,6 +154,11 @@ export const CONFIG = {
   payments: {
     mpesaEnabled: false,
     apiBaseUrl: "https://aquasplash-mpesa-server.onrender.com", // update once deployed
+
+    mpesaTill:      "9226343",
+    paybillNumber:  "247247",
+    paybillAccount: "801801",
+    cashOnDelivery: true,
   },
 
   // -----------------------------------------------------------
