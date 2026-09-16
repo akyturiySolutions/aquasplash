@@ -152,6 +152,8 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
 .contact-btn { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 15px; border-radius: 12px; font-weight: 700; font-size: 0.95rem; text-decoration: none; margin-bottom: 10px; border: none; cursor: pointer; color: white; }
 .contact-btn.blue  { background: var(--blue); }
 .contact-btn.green { background: var(--green); }
+.contact-btn.call-btn,
+.contact-btn.whatsapp-btn { background: var(--blue-light); color: var(--blue); }
 .map-placeholder { background: var(--blue-light); border-radius: 14px; height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--blue); font-size: 2.5rem; margin-bottom: 14px; }
 .map-placeholder p { font-size: 0.85rem; color: var(--text-light); margin-top: 8px; }
 
