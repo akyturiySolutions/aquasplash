@@ -33,12 +33,73 @@ function applyTheme(theme) {
   });
 }
 
+// ── Install prompt (discreet header button) ──────────────────
+// Android/Chrome: fires beforeinstallprompt when installable.
+// iOS Safari never fires that event, so we detect iOS separately
+// and show simple manual instructions instead (no native prompt
+// exists there). Never shown if already running as an installed app.
+let deferredInstallPrompt = null;
+
+function isStandalone() {
+  return window.matchMedia('(display-mode: standalone)').matches
+      || window.navigator.standalone === true; // iOS Safari's own flag
+}
+
+function isIOS() {
+  return /iphone|ipad|ipod/i.test(window.navigator.userAgent);
+}
+
+function showInstallButton() {
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'flex';
+}
+
+function hideInstallButton() {
+  const btn = document.getElementById('installBtn');
+  if (btn) btn.style.display = 'none';
+}
+
+function setupInstallPrompt() {
+  if (isStandalone()) return; // already installed — never show
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    showInstallButton();
+  });
+
+  window.addEventListener('appinstalled', () => {
+    deferredInstallPrompt = null;
+    hideInstallButton();
+  });
+
+  // iOS has no install event at all — offer manual steps instead,
+  // since Safari doesn't support a programmatic prompt.
+  if (isIOS()) {
+    showInstallButton();
+  }
+
+  window._installApp = async () => {
+    if (deferredInstallPrompt) {
+      deferredInstallPrompt.prompt();
+      await deferredInstallPrompt.userChoice;
+      deferredInstallPrompt = null;
+      hideInstallButton();
+      return;
+    }
+    if (isIOS()) {
+      alert('To install: tap the Share icon below, then "Add to Home Screen".');
+    }
+  };
+}
+
 function initApp() {
   applyTheme(CONFIG.theme);
   document.title = CONFIG.businessName;
   renderHeader();
   renderNav();
   navigateTo('home');
+  setupInstallPrompt();
 }
 
 initApp();

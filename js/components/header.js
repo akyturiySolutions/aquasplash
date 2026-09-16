@@ -11,6 +11,7 @@ export function renderHeader() {
         <div class="header-tagline">${CONFIG.tagline}</div>
       </div>
       <div class="header-actions">
+        <button class="header-icon-btn" id="installBtn" style="display:none" onclick="window._installApp()" title="Install App" aria-label="Install App">⬇️</button>
         <button class="header-icon-btn" onclick="window.open('tel:${CONFIG.phone}')">📞</button>
         <button class="header-icon-btn" onclick="window.open('https://wa.me/${CONFIG.whatsappNumber}')">💬</button>
       </div>
