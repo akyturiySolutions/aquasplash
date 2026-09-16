@@ -5,7 +5,7 @@
 //  so this file never needs per-tenant edits.
 // ============================================================
 
-const CACHE_NAME = 'pwa-shell-v4';
+const CACHE_NAME = 'pwa-shell-v6';
 
 // App shell only — no product images listed here on purpose.
 const PRECACHE_URLS = [
@@ -22,6 +22,7 @@ const PRECACHE_URLS = [
   '/js/pages/products.js',
   '/js/pages/order.js',
   '/js/pages/about.js',
+  '/js/pages/landing.js',
 ];
 
 // ── Install: pre-cache the app shell ────────────────────────

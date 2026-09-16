@@ -36,6 +36,12 @@ export function initHome() {
         <p>${CONFIG.home.welcomeText}</p>
       </div>
 
+      <div class="coast-promo-card">
+        <h3>The Coastal Collection</h3>
+        <p>See every AquaSplash size in one place, styled around the Mombasa coast we're proud to call home.</p>
+        <button class="coast-promo-btn" onclick="window._nav('landing')">🌊 View the Collection</button>
+      </div>
+
       <div class="quick-actions">
         <p class="section-heading">Quick Actions</p>
         <button class="btn-order" onclick="window._nav('order')">

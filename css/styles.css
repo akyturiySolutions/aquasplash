@@ -154,3 +154,123 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
 .contact-btn.green { background: var(--green); }
 .map-placeholder { background: var(--blue-light); border-radius: 14px; height: 220px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--blue); font-size: 2.5rem; margin-bottom: 14px; }
 .map-placeholder p { font-size: 0.85rem; color: var(--text-light); margin-top: 8px; }
+
+/* ============================================================
+   Landing Page — "Coastal Collection"
+   Scoped color/type tokens so this doesn't touch the app's
+   core --navy/--blue theme used everywhere else.
+   ============================================================ */
+.landing-page {
+  --coast-deep:      #0A4B52;
+  --coast-teal:      #1C8C93;
+  --coast-turquoise: #4FD1C5;
+  --coast-sand:      #F3E7CE;
+  --coast-coral:     #E8703C;
+  --coast-ink:       #0F2B2E;
+  font-family: 'Manrope', 'Segoe UI', Arial, sans-serif;
+}
+
+.coast-hero {
+  position: relative;
+  background: linear-gradient(180deg, var(--coast-deep) 0%, var(--coast-teal) 100%);
+  padding: 44px 20px 0;
+  overflow: hidden;
+  min-height: 380px;
+}
+.coast-sky { position: absolute; inset: 0; }
+.coast-sun {
+  position: absolute; top: 28px; right: 34px;
+  width: 64px; height: 64px; border-radius: 50%;
+  background: radial-gradient(circle, #FFE9B8 0%, #FBCB6E 55%, rgba(251,203,110,0) 75%);
+}
+.coast-waves-bg { position: absolute; left: 0; right: 0; bottom: 56px; width: 100%; height: 140px; }
+.dhow {
+  position: absolute; left: 50%; bottom: 78px;
+  width: 130px; height: auto;
+  transform: translateX(-50%);
+  animation: dhow-drift 7s ease-in-out infinite;
+}
+@keyframes dhow-drift {
+  0%, 100% { transform: translateX(-52%) translateY(0); }
+  50%      { transform: translateX(-48%) translateY(-4px); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .dhow { animation: none; }
+}
+.palm { position: absolute; bottom: 40px; width: 110px; height: auto; z-index: 1; }
+.palm-left  { left: -18px; }
+.palm-right { right: -18px; }
+
+.coast-proof { background: var(--coast-sand, #F3E7CE); padding: 24px 20px 4px; text-align: center; }
+.coast-proof img { width: 100%; max-width: 420px; border-radius: 14px; display: block; margin: 0 auto; }
+.coast-proof-caption { font-size: 0.78rem; color: #7a6f57; margin-top: 10px; font-family: 'Manrope', sans-serif; }
+
+.coast-hero-copy { position: relative; z-index: 2; text-align: center; padding-bottom: 60px; }
+.coast-kicker {
+  color: var(--coast-turquoise);
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.coast-hero-copy h1 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 2.1rem;
+  line-height: 1.15;
+  color: #FBF7EC;
+  margin-bottom: 14px;
+}
+.coast-sub {
+  color: rgba(251,247,236,0.85);
+  font-size: 0.95rem;
+  line-height: 1.55;
+  max-width: 340px;
+  margin: 0 auto;
+}
+.wave-divider { display: block; width: 100%; height: 60px; position: relative; z-index: 1; margin-top: 24px; }
+
+.coast-collection { background: var(--coast-sand); padding: 36px 20px 44px; }
+.coast-collection h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.5rem;
+  color: var(--coast-ink);
+  margin-bottom: 6px;
+}
+.coast-collection-sub { color: #5c6f5e; font-size: 0.88rem; margin-bottom: 22px; }
+
+.coast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.coast-card { background: #FFFDF7; border: 1px solid #E3D3AC; border-radius: 14px; overflow: hidden; }
+.coast-card-img-wrap { background: #FFFDF7; display: flex; align-items: center; justify-content: center; padding: 14px; height: 120px; }
+.coast-card-img-wrap img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.coast-card-body { padding: 10px 12px 14px; border-top: 1px solid #EEE2C4; }
+.coast-card-body h3 { font-size: 0.95rem; font-weight: 800; color: var(--coast-ink); margin-bottom: 2px; }
+.coast-card-pack { font-size: 0.72rem; color: #7a6f57; margin-bottom: 6px; }
+.coast-card-price { font-size: 0.95rem; font-weight: 800; color: var(--coast-coral); }
+
+.coast-cta { background: var(--coast-deep); padding: 40px 24px 48px; text-align: center; }
+.coast-cta h2 {
+  font-family: 'Fraunces', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: #FBF7EC;
+  margin-bottom: 8px;
+}
+.coast-cta p { color: rgba(251,247,236,0.8); font-size: 0.9rem; margin-bottom: 22px; }
+.coast-cta-buttons { display: flex; flex-direction: column; gap: 12px; max-width: 320px; margin: 0 auto; }
+.coast-btn { border: none; border-radius: 999px; padding: 14px 20px; font-size: 0.95rem; font-weight: 700; font-family: 'Manrope', sans-serif; cursor: pointer; }
+.coast-btn-primary { background: var(--coast-coral); color: #FBF7EC; }
+.coast-btn-secondary { background: transparent; color: #FBF7EC; border: 1.5px solid rgba(251,247,236,0.5); }
+
+/* Promo card on Home linking to the landing page */
+.coast-promo-card {
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #0A4B52 0%, #1C8C93 100%);
+  border-radius: 14px; padding: 20px; margin-bottom: 16px; color: #FBF7EC;
+}
+.coast-promo-card h3 { font-family: 'Fraunces', Georgia, serif; font-size: 1.15rem; font-weight: 600; margin-bottom: 6px; }
+.coast-promo-card p { font-size: 0.85rem; color: rgba(251,247,236,0.85); margin-bottom: 14px; line-height: 1.45; }
+.coast-promo-btn {
+  background: #FBF7EC; color: var(--coast-deep); border: none; border-radius: 999px;
+  padding: 10px 18px; font-size: 0.85rem; font-weight: 700; cursor: pointer; font-family: 'Manrope', 'Segoe UI', sans-serif;
+}
