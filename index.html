@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#0b2a63">
+  <meta name="description" content="Quality, safe, affordable drinking water delivered across Mombasa, Kwale, and Kilifi Counties — order online.">
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="/manifest.json">
+
+  <!-- iOS PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="AquaSplash">
+  <link rel="apple-touch-icon" href="images/icon-192.png">
+
+  <!-- Open Graph — WhatsApp/Facebook link previews -->
+  <meta property="og:title" content="AquaSplash">
+  <meta property="og:description" content="Quality, safe, affordable drinking water delivered across Mombasa, Kwale, and Kilifi Counties — order online.">
+  <meta property="og:image" content="images/icon-512.png">
+  <meta property="og:type" content="website">
+
+  <title>AquaSplash</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+<div id="app">
+  <div id="header"></div>
+  <div id="content"></div>
+  <div id="nav"></div>
+</div>
+
+<!-- Service Worker registration -->
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('/sw.js')
+        .catch(err => console.log('SW registration failed:', err));
+    });
+  }
+</script>
+
+<!-- App bootstrap -->
+<script type="module" src="js/app.js"></script>
+</body>
+</html>
