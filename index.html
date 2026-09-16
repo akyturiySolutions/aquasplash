@@ -31,16 +31,42 @@
 
 <div id="app">
   <div id="header"></div>
+  <div id="updateBanner" class="update-banner" style="display:none">
+    <span>A new version is available</span>
+    <button onclick="window.location.reload()">Refresh</button>
+  </div>
   <div id="content"></div>
   <div id="nav"></div>
 </div>
 
-<!-- Service Worker registration -->
+<!-- Service Worker registration + update detection -->
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
-      navigator.serviceWorker.register('/sw.js')
-        .catch(err => console.log('SW registration failed:', err));
+      navigator.serviceWorker.register('/sw.js').then(reg => {
+        // Check for a newer sw.js right away, and periodically while
+        // the app stays open (catches long-lived sessions that never
+        // fully close, which is common once installed on a phone).
+        reg.update();
+        setInterval(() => reg.update(), 60 * 1000);
+        document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') reg.update();
+        });
+
+        reg.addEventListener('updatefound', () => {
+          const newWorker = reg.installing;
+          if (!newWorker) return;
+          newWorker.addEventListener('statechange', () => {
+            // 'installed' + an existing controller means this is an
+            // update to an already-running app, not the first install.
+            // We deliberately do NOT auto-reload here — someone could
+            // be mid-order — we just let them know one is ready.
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+              window.dispatchEvent(new CustomEvent('sw-update-available'));
+            }
+          });
+        });
+      }).catch(err => console.log('SW registration failed:', err));
     });
   }
 </script>

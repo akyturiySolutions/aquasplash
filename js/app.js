@@ -93,6 +93,11 @@ function setupInstallPrompt() {
   };
 }
 
+window.addEventListener('sw-update-available', () => {
+  const banner = document.getElementById('updateBanner');
+  if (banner) banner.style.display = 'flex';
+});
+
 function initApp() {
   applyTheme(CONFIG.theme);
   document.title = CONFIG.businessName;

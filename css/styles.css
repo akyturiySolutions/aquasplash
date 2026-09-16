@@ -41,6 +41,15 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background: var(--bg); color:
 .header-tagline { font-size: 0.68rem; opacity: 0.8; letter-spacing: 1.5px; text-transform: uppercase; }
 .header-actions { display: flex; gap: 8px; }
 .header-icon-btn { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.15); border: none; color: white; font-size: 1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.update-banner {
+  align-items: center; justify-content: space-between; gap: 10px;
+  background: var(--navy); color: white; font-size: 0.82rem; font-weight: 600;
+  padding: 10px 14px; position: sticky; top: 0; z-index: 99;
+}
+.update-banner button {
+  background: white; color: var(--navy); border: none; border-radius: 999px;
+  padding: 6px 14px; font-size: 0.78rem; font-weight: 700; cursor: pointer; flex-shrink: 0;
+}
 
 /* Content */
 #content { flex: 1; overflow-y: auto; padding-bottom: calc(var(--nav-height) + 8px); }
