@@ -65,7 +65,7 @@ export const CONFIG = {
   contact: {
     intro: "We're happy to help with orders, delivery questions, or anything else. Call us on +254 726 557 840 or +254 101 141 268.",
     locationText: "Nyali, Mombasa, Kenya.",
-    businessHours: "Monday – Sunday: 8:00 AM – 5:00 PM",
+    businessHours: "Monday – Saturday: 8:00 AM – 5:00 PM",
   },
 
   // -----------------------------------------------------------
