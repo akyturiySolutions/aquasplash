@@ -5,7 +5,7 @@
 //  so this file never needs per-tenant edits.
 // ============================================================
 
-const CACHE_NAME = 'pwa-shell-v14';
+const CACHE_NAME = 'pwa-shell-v15';
 
 // App shell only — no product images listed here on purpose.
 const PRECACHE_URLS = [
@@ -26,10 +26,18 @@ const PRECACHE_URLS = [
 ];
 
 // ── Install: pre-cache the app shell ────────────────────────
+// Each file is fetched with {cache:'reload'} to deliberately
+// bypass the browser's own HTTP cache — otherwise a file served
+// with a long max-age (see vercel.json) could be re-cached here
+// as stale content even though a genuinely new version exists.
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(PRECACHE_URLS))
+      .then(cache => Promise.all(
+        PRECACHE_URLS.map(url =>
+          fetch(url, { cache: 'reload' }).then(response => cache.put(url, response))
+        )
+      ))
       .then(() => self.skipWaiting())
   );
 });
