@@ -145,6 +145,30 @@ export const CONFIG = {
       image:       "images/20L.jpg",
       description: "Large dispenser bottle — best for offices & bulk use",
     },
+    {
+      id: 7,
+      size:        "18.9 Litres",
+      pack:        "Empty Hard Bottle (Reusable)",
+      price:       1300,
+      image:       "images/18-9L-empty-reusable.jpg",
+      description: "Empty reusable hard bottle, no water included — for customers who need their own container",
+    },
+    {
+      id: 8,
+      size:        "18.9 Litres",
+      pack:        "Disposable Jar (Empty)",
+      price:       500,
+      image:       "images/18-9L-empty-reusable.jpg",
+      description: "Empty disposable jar, no water included",
+    },
+    {
+      id: 9,
+      size:        "10 Litres",
+      pack:        "Disposable (Empty)",
+      price:       250,
+      image:       "images/10L.jpg",
+      description: "Empty disposable 10-litre container, no water included",
+    },
   ],
 
   // -----------------------------------------------------------
