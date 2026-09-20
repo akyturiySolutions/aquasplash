@@ -10,7 +10,7 @@ export const CONFIG = {
   businessName: "AquaSplash",
   shortName:    "AquaSplash",
   tagline:      "Purified Drinking Water",
-  heroSubtitle: "Your Hygiene Our Priority",
+  heroSubtitle: "Pure.Safe.Refreshing",
   emoji:        "💧",
 
   phone:          "+254726557840",
