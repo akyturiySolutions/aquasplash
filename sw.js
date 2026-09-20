@@ -5,7 +5,7 @@
 //  so this file never needs per-tenant edits.
 // ============================================================
 
-const CACHE_NAME = 'pwa-shell-v17';
+const CACHE_NAME = 'pwa-shell-v18';
 
 // App shell only — no product images listed here on purpose.
 const PRECACHE_URLS = [
@@ -61,6 +61,21 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   // Don't intercept WhatsApp / tel / external links
   if (!event.request.url.startsWith(self.location.origin)) return;
+
+  const url = new URL(event.request.url);
+
+  // The version marker is how the page detects that a new deploy
+  // exists (see index.template.html). It must NEVER be answered
+  // from this cache — cache-first here would silently freeze the
+  // app on the version it was first cached with, defeating the
+  // whole point. Always go to the network; only fall back to a
+  // cached copy if the device is genuinely offline.
+  if (url.pathname === '/version.json') {
+    event.respondWith(
+      fetch(event.request, { cache: 'no-store' }).catch(() => caches.match(event.request))
+    );
+    return;
+  }
 
   event.respondWith(
     caches.match(event.request).then(cached => {

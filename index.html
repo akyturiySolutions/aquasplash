@@ -33,7 +33,7 @@
   <div id="header"></div>
   <div id="updateBanner" class="update-banner" style="display:none">
     <span>A new version is available</span>
-    <button onclick="window.location.reload()">Refresh</button>
+    <button onclick="window._forceRefresh()">Refresh</button>
   </div>
   <div id="content"></div>
   <div id="nav"></div>
@@ -41,12 +41,81 @@
 
 <!-- Service Worker registration + update detection -->
 <script>
+  function showUpdateBanner() {
+    const banner = document.getElementById('updateBanner');
+    if (banner) banner.style.display = 'flex';
+  }
+
+  // ── Primary update check: poll a tiny version marker over the
+  // network ────────────────────────────────────────────────────
+  // We used to rely only on the service worker's own updatefound/
+  // statechange events to know a new version had shipped. That
+  // depends on the browser actually running its background SW
+  // update check on its own schedule, which installed home-screen
+  // apps (especially on iOS, but Android isn't perfectly reliable
+  // either once the app has been backgrounded/reopened many times)
+  // do not do consistently — hence the banner working once and
+  // then going quiet. This check doesn't depend on the SW lifecycle
+  // at all: version.json is served with no-cache headers AND the
+  // service worker (see sw.js) is told to never answer it from its
+  // own cache, so every fetch here is a genuine round trip to the
+  // server, and a version.json that doesn't match what we saw last
+  // means a new deploy is live.
+  let knownVersion = null;
+  try { knownVersion = localStorage.getItem('appVersion'); } catch (e) {}
+
+  function checkVersion() {
+    fetch('/version.json', { cache: 'no-store' })
+      .then(res => (res && res.ok) ? res.json() : null)
+      .then(data => {
+        if (!data || !data.version) return;
+        if (knownVersion === null) {
+          // First time this device has ever checked — just record
+          // the baseline, nothing to announce yet.
+          knownVersion = data.version;
+          try { localStorage.setItem('appVersion', knownVersion); } catch (e) {}
+          return;
+        }
+        if (data.version !== knownVersion) {
+          knownVersion = data.version;
+          try { localStorage.setItem('appVersion', knownVersion); } catch (e) {}
+          showUpdateBanner();
+        }
+      })
+      .catch(() => {});
+  }
+
+  checkVersion();
+  setInterval(checkVersion, 60 * 1000);
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') checkVersion();
+  });
+
+  // ── Refresh action: don't just reload — that would still be
+  // served cache-first by whatever service worker is currently
+  // controlling the page if its own update never got a chance to
+  // install. So we tear the old registration down completely and
+  // reload with a cache-busting URL, which guarantees the next
+  // load is genuinely fresh regardless of what state the old SW
+  // was stuck in, then a brand-new SW re-installs from scratch.
+  window._forceRefresh = async function () {
+    try {
+      if ('serviceWorker' in navigator) {
+        const regs = await navigator.serviceWorker.getRegistrations();
+        await Promise.all(regs.map(r => r.unregister()));
+      }
+    } catch (e) {}
+    window.location.href = window.location.pathname + '?_v=' + Date.now();
+  };
+
+  // ── Secondary signal: the service worker's own update events ──
+  // Kept as a fast-path for the (common) case where the browser's
+  // native update check does work — it can surface the banner
+  // sooner than the next 60s version poll. Harmless if it never
+  // fires; checkVersion() above is what we actually depend on.
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       navigator.serviceWorker.register('/sw.js').then(reg => {
-        // Check for a newer sw.js right away, and periodically while
-        // the app stays open (catches long-lived sessions that never
-        // fully close, which is common once installed on a phone).
         reg.update();
         setInterval(() => reg.update(), 60 * 1000);
         document.addEventListener('visibilitychange', () => {
@@ -57,12 +126,8 @@
           const newWorker = reg.installing;
           if (!newWorker) return;
           newWorker.addEventListener('statechange', () => {
-            // 'installed' + an existing controller means this is an
-            // update to an already-running app, not the first install.
-            // We deliberately do NOT auto-reload here — someone could
-            // be mid-order — we just let them know one is ready.
             if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-              window.dispatchEvent(new CustomEvent('sw-update-available'));
+              showUpdateBanner();
             }
           });
         });

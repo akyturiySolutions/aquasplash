@@ -20,8 +20,28 @@ async function main() {
 
   await buildIndexHtml(CONFIG);
   await buildManifest(CONFIG);
+  await buildVersionFile();
 
-  console.log('✅ Generated index.html and manifest.json from js/config.js');
+  console.log('✅ Generated index.html, manifest.json and version.json from js/config.js');
+}
+
+// version.json is what the page polls (over the network, never
+// cached — see sw.js) to notice a new deploy. Its value is derived
+// straight from sw.js's own CACHE_NAME, so bumping the cache name
+// the normal way when you ship a change is the ONLY thing you need
+// to remember — this file always stays in lockstep automatically.
+async function buildVersionFile() {
+  const swPath = path.join(__dirname, 'sw.js');
+  const sw = await readFile(swPath, 'utf8');
+  const match = sw.match(/const\s+CACHE_NAME\s*=\s*['"]([^'"]+)['"]/);
+  if (!match) {
+    throw new Error('Could not find CACHE_NAME in sw.js — version.json not generated.');
+  }
+  await writeFile(
+    path.join(__dirname, 'version.json'),
+    JSON.stringify({ version: match[1] }, null, 2) + '\n',
+    'utf8'
+  );
 }
 
 async function buildIndexHtml(CONFIG) {

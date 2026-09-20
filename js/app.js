@@ -93,10 +93,9 @@ function setupInstallPrompt() {
   };
 }
 
-window.addEventListener('sw-update-available', () => {
-  const banner = document.getElementById('updateBanner');
-  if (banner) banner.style.display = 'flex';
-});
+// Update-available detection and the banner it shows now live in
+// index.template.html (inline, so it runs before this module even
+// loads) — see the comments there for why.
 
 function initApp() {
   applyTheme(CONFIG.theme);

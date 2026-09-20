@@ -18,6 +18,12 @@
       ]
     },
     {
+      "source": "/version.json",
+      "headers": [
+        { "key": "Cache-Control", "value": "no-cache, no-store, must-revalidate" }
+      ]
+    },
+    {
       "source": "/images/(.*)",
       "headers": [
         { "key": "Cache-Control", "value": "public, max-age=2592000, immutable" }
@@ -37,6 +43,6 @@
     }
   ],
   "rewrites": [
-    { "source": "/((?!api|images|css|js|sw.js|manifest.json).*)", "destination": "/index.html" }
+    { "source": "/((?!api|images|css|js|sw.js|manifest.json|version.json).*)", "destination": "/index.html" }
   ]
 }
